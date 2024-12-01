@@ -10,15 +10,10 @@ use std::error::Error;
 ///
 /// Specification:
 /// <https://w3c.github.io/uievents-key/>
-#[derive(Clone, Debug, Eq, PartialEq, Hash)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[non_exhaustive]
-pub enum Key {
-    /// A key string that corresponds to the character typed by the user,
-    /// taking into account the user’s current locale setting, modifier state,
-    /// and any system-level keyboard mapping overrides that are in effect.
-    Character(String),
-    
+pub enum NamedKey {
     /// This key value is used when an implementation is unable to
     /// identify another key value, due to either hardware,
     /// platform, or software constraints.
@@ -667,12 +662,10 @@ pub enum Key {
 }
 
 
-impl Display for Key {
+impl Display for NamedKey {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        use self::Key::*;
+        use self::NamedKey::*;
         match *self {
-            Character(ref s) => write!(f, "{}", s),
-    
             Unidentified => f.write_str("Unidentified"),
             Alt => f.write_str("Alt"),
             AltGraph => f.write_str("AltGraph"),
@@ -985,13 +978,12 @@ impl Display for Key {
     }
 }
 
-impl FromStr for Key {
-    type Err = UnrecognizedKeyError;
+impl FromStr for NamedKey {
+    type Err = UnrecognizedNamedKeyError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        use crate::Key::*;
+        use crate::NamedKey::*;
         match s {
-            s if is_key_string(s) => Ok(Character(s.to_string())),
             "Unidentified" => Ok(Unidentified),
             "Alt" => Ok(Alt),
             "AltGraph" => Ok(AltGraph),
@@ -1300,40 +1292,19 @@ impl FromStr for Key {
             "F34" => Ok(F34),
             "F35" => Ok(F35),
 
-            _ => Err(UnrecognizedKeyError),
+            _ => Err(UnrecognizedNamedKeyError),
         }
     }
 }
 
 /// Parse from string error, returned when string does not match to any Key variant.
 #[derive(Clone, Debug)]
-pub struct UnrecognizedKeyError;
+pub struct UnrecognizedNamedKeyError;
 
-impl fmt::Display for UnrecognizedKeyError {
+impl fmt::Display for UnrecognizedNamedKeyError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "Unrecognized key")
     }
 }
 
-impl Error for UnrecognizedKeyError {}
-
-/// Check if string can be used as a `Key::Character` _keystring_.
-///
-/// This check is simple and is meant to prevents common mistakes like mistyped keynames
-/// (e.g. `Ennter`) from being recognized as characters.
-fn is_key_string(s: &str) -> bool {
-    s.chars().all(|c| !c.is_control()) && s.chars().skip(1).all(|c| !c.is_ascii())
-}
-
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    #[test]
-    fn test_is_key_string() {
-        assert!(is_key_string("A"));
-        assert!(!is_key_string("AA"));
-        assert!(!is_key_string("	"));
-    }
-}
-    
+impl Error for UnrecognizedNamedKeyError {}
