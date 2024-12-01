@@ -1,6 +1,7 @@
 
 // AUTO GENERATED CODE - DO NOT EDIT
 #![cfg_attr(rustfmt, rustfmt_skip)]
+#![allow(deprecated)]
 
 use std::fmt::{self, Display};
 use std::str::FromStr;
@@ -55,8 +56,10 @@ pub enum Key {
     /// The Symbol Lock key.
     SymbolLock,
     /// The <kbd>Hyper</kbd> key.
+    #[deprecated = "marked as legacy in the spec"]
     Hyper,
     /// The <kbd>Super</kbd> key.
+    #[deprecated = "marked as legacy in the spec"]
     Super,
     /// The <kbd>Enter</kbd> or <kbd>↵</kbd> key, to activate current selection or accept current input.<br/> This key value is also used for the <kbd>Return</kbd> (Macintosh numpad) key.<br/> This key value is also used for the Android <code class="android">KEYCODE_DPAD_CENTER</code>.
     Enter,

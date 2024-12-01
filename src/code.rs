@@ -1,6 +1,7 @@
 
 // AUTO GENERATED CODE - DO NOT EDIT
 #![cfg_attr(rustfmt, rustfmt_skip)]
+#![allow(deprecated)]
 
 use std::fmt::{self, Display};
 use std::str::FromStr;
@@ -318,29 +319,44 @@ pub enum Code {
     AudioVolumeMute,
     AudioVolumeUp,
     WakeUp,
+    #[deprecated = "marked as legacy in the spec"]
     Hyper,
+    #[deprecated = "marked as legacy in the spec"]
     Super,
+    #[deprecated = "marked as legacy in the spec"]
     Turbo,
+    #[deprecated = "marked as legacy in the spec"]
     Abort,
+    #[deprecated = "marked as legacy in the spec"]
     Resume,
+    #[deprecated = "marked as legacy in the spec"]
     Suspend,
     /// Found on Sun’s USB keyboard.
+    #[deprecated = "marked as legacy in the spec"]
     Again,
     /// Found on Sun’s USB keyboard.
+    #[deprecated = "marked as legacy in the spec"]
     Copy,
     /// Found on Sun’s USB keyboard.
+    #[deprecated = "marked as legacy in the spec"]
     Cut,
     /// Found on Sun’s USB keyboard.
+    #[deprecated = "marked as legacy in the spec"]
     Find,
     /// Found on Sun’s USB keyboard.
+    #[deprecated = "marked as legacy in the spec"]
     Open,
     /// Found on Sun’s USB keyboard.
+    #[deprecated = "marked as legacy in the spec"]
     Paste,
     /// Found on Sun’s USB keyboard.
+    #[deprecated = "marked as legacy in the spec"]
     Props,
     /// Found on Sun’s USB keyboard.
+    #[deprecated = "marked as legacy in the spec"]
     Select,
     /// Found on Sun’s USB keyboard.
+    #[deprecated = "marked as legacy in the spec"]
     Undo,
     /// Use for dedicated <kbd>ひらがな</kbd> key found on some Japanese word processing keyboards.
     Hiragana,
