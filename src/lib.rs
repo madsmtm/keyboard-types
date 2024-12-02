@@ -26,18 +26,25 @@ pub mod webdriver;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-/// Describes the state the key is in.
+/// Describes the state a key is in.
 #[derive(Copy, Clone, Debug, Eq, Hash, PartialEq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum KeyState {
-    /// Key is pressed.
+    /// The key is pressed down.
     ///
     /// In JS: "keydown" event firing.
-    Down,
-    /// Key is released.
+    Pressed,
+    /// The key is not pressed / was just released.
     ///
     /// In JS: "keyup event".
-    Up,
+    Released,
+}
+
+impl KeyState {
+    /// True if the key is pressed.
+    pub fn is_pressed(self) -> bool {
+        self == Self::Pressed
+    }
 }
 
 /// Keyboard events are issued for all pressed and released keys.
@@ -106,8 +113,8 @@ pub struct CompositionEvent {
 impl fmt::Display for KeyState {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            KeyState::Down => f.write_str("keydown"),
-            KeyState::Up => f.write_str("keyup"),
+            KeyState::Pressed => f.write_str("keydown"),
+            KeyState::Released => f.write_str("keyup"),
         }
     }
 }
@@ -217,7 +224,7 @@ impl Key {
 
 impl Default for KeyState {
     fn default() -> KeyState {
-        KeyState::Down
+        KeyState::Pressed
     }
 }
 
